@@ -1,0 +1,142 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ChatRoom {
+  _id: String!
+  members: String!
+  photoURL: String
+  isGroup: Boolean!
+  name: String
+  admin: String
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Message {
+  _id: String!
+  message: String!
+  type: String!
+  senderId: String!
+  seen: String
+  chatRoomId: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type User {
+  _id: String!
+  email: String!
+  photoURL: String
+  fullName: String!
+  phoneNumber: String
+  fcm_token: String
+  createdAt: String!
+  updatedAt: String!
+}
+
+type Friend {
+  _id: String!
+  senderId: String!
+  recipientId: String!
+  createdAt: String!
+}
+
+type FriendRequest {
+  _id: String!
+  senderId: String!
+  recipientId: String!
+  createdAt: String!
+}
+
+type Query {
+  users: [User!]!
+  user(_id: String!): User!
+  chatRooms: [ChatRoom!]!
+  chatRoom(_id: String!): ChatRoom!
+  messages: [Message!]!
+  message(_id: String!): Message!
+  getAllMessagesByChatRoomId(chatRoomId: String!): [Message!]!
+  getListFriendOfUser(userId: String!): [Friend!]!
+  getFriendRequestBySenderId(senderId: String!): [FriendRequest!]!
+  getFriendRequestByRecipientId(recipientId: String!): [FriendRequest!]!
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(_id: String!): User!
+  createChatRoom(createChatRoomInput: CreateChatRoomInput!): ChatRoom!
+  updateChatRoom(updateChatRoomInput: UpdateChatRoomInput!): ChatRoom!
+  removeChatRoom(_id: String!): ChatRoom!
+  createMessage(createMessageInput: CreateMessageInput!): Message!
+  updateMessage(updateMessageInput: UpdateMessageInput!): Message!
+  removeMessage(_id: String!): Message!
+  createFriend(createFriendInput: CreateFriendInput!): Friend!
+  removeFriend(_id: String!): Friend!
+  createFriendRequest(createFriendRequestInput: CreateFriendRequestInput!): FriendRequest!
+  removeFriendRequest(_id: String!): FriendRequest!
+}
+
+input CreateUserInput {
+  email: String!
+  photoURL: String = ""
+  fullName: String!
+  phoneNumber: String = ""
+  fcm_token: String = ""
+}
+
+input UpdateUserInput {
+  email: String
+  photoURL: String = ""
+  fullName: String
+  phoneNumber: String = ""
+  fcm_token: String = ""
+  _id: String!
+}
+
+input CreateChatRoomInput {
+  members: String!
+  photoURL: String = ""
+  isGroup: Boolean!
+  name: String = ""
+  admin: String = ""
+  createdAt: String!
+  updatedAt: String!
+}
+
+input UpdateChatRoomInput {
+  members: String
+  photoURL: String = ""
+  isGroup: Boolean
+  name: String = ""
+  admin: String = ""
+  createdAt: String
+  updatedAt: String
+  _id: String!
+}
+
+input CreateMessageInput {
+  message: String!
+  type: String!
+  senderId: String!
+  seen: String = ""
+}
+
+input UpdateMessageInput {
+  message: String
+  type: String
+  senderId: String
+  seen: String = ""
+  _id: String!
+}
+
+input CreateFriendInput {
+  senderId: String!
+  recipientId: String!
+}
+
+input CreateFriendRequestInput {
+  senderId: String!
+  recipientId: String!
+}
