@@ -14,5 +14,6 @@ import { Friend, FriendSchema } from './entities/friend.entity';
     ]),
   ],
   providers: [FriendsResolver, FriendsService],
+  exports: [FriendsService]
 })
 export class FriendsModule {}

@@ -1,10 +1,12 @@
-import { InputType, Field } from '@nestjs/graphql';
+import { InputType, Field, ObjectType } from '@nestjs/graphql';
+import { ChatRoomMember } from 'src/chat-room-members/entities/chat-room-member.entity';
 
 @InputType()
+@ObjectType()
 export class CreateChatRoomInput {
 
-  @Field(() => String)
-  members: string;
+  @Field(() => [ChatRoomMember])
+  members: Array<ChatRoomMember>;
 
   @Field(() => String, { nullable: true, defaultValue: "" })
   photoURL: string;

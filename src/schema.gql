@@ -24,17 +24,6 @@ type Message {
   updatedAt: String!
 }
 
-type User {
-  _id: String!
-  email: String!
-  photoURL: String
-  fullName: String!
-  phoneNumber: String
-  fcm_token: String
-  createdAt: String!
-  updatedAt: String!
-}
-
 type Friend {
   _id: String!
   senderId: String!
@@ -49,9 +38,34 @@ type FriendRequest {
   createdAt: String!
 }
 
+type InitialDataResponse {
+  userInfo: User!
+  listFriend: [Friend!]!
+  listFriendRequest: [FriendRequest!]!
+  listChatRoom: [ChatRoom!]!
+}
+
+type User {
+  _id: String!
+  email: String!
+  photoURL: String
+  fullName: String!
+  phoneNumber: String
+  fcmToken: String
+  createdAt: String!
+  updatedAt: String!
+  initialData: InitialDataResponse
+}
+
+type ChatRoomMember {
+  userId: String!
+  chatRoomId: String!
+}
+
 type Query {
   users: [User!]!
   user(_id: String!): User!
+  getInitialDataOfUser(userId: String!): InitialDataResponse!
   chatRooms: [ChatRoom!]!
   chatRoom(_id: String!): ChatRoom!
   messages: [Message!]!
@@ -76,6 +90,8 @@ type Mutation {
   removeFriend(_id: String!): Friend!
   createFriendRequest(createFriendRequestInput: CreateFriendRequestInput!): FriendRequest!
   removeFriendRequest(_id: String!): FriendRequest!
+  createChatRoomMember(createChatRoomMemberInput: CreateChatRoomMemberInput!): ChatRoomMember!
+  removeChatRoomMember(removeChatRoomMemberInput: RemoveChatRoomMemberInput!): ChatRoomMember!
 }
 
 input CreateUserInput {
@@ -83,7 +99,7 @@ input CreateUserInput {
   photoURL: String = ""
   fullName: String!
   phoneNumber: String = ""
-  fcm_token: String = ""
+  fcmToken: String = ""
 }
 
 input UpdateUserInput {
@@ -91,7 +107,7 @@ input UpdateUserInput {
   photoURL: String = ""
   fullName: String
   phoneNumber: String = ""
-  fcm_token: String = ""
+  fcmToken: String = ""
   _id: String!
 }
 
@@ -139,4 +155,14 @@ input CreateFriendInput {
 input CreateFriendRequestInput {
   senderId: String!
   recipientId: String!
+}
+
+input CreateChatRoomMemberInput {
+  userId: String!
+  chatRoomId: String!
+}
+
+input RemoveChatRoomMemberInput {
+  userId: String
+  chatRoomId: String
 }

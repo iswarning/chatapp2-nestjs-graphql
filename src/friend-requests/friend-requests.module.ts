@@ -14,5 +14,6 @@ import { FriendRequest, FriendRequestSchema } from './entities/friend-request.en
     ]),
   ],
   providers: [FriendRequestsResolver, FriendRequestsService],
+  exports: [FriendRequestsService]
 })
 export class FriendRequestsModule {}

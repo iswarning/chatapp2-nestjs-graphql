@@ -1,6 +1,7 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Schema as MongooseSchema } from 'mongoose';
+import { ChatRoomMember } from 'src/chat-room-members/entities/chat-room-member.entity';
 
 @Schema()
 @ObjectType()
@@ -10,8 +11,8 @@ export class ChatRoom {
   _id: MongooseSchema.Types.ObjectId;
 
   @Prop()
-  @Field(() => String)
-  members: string;
+  @Field(() => [ChatRoomMember])
+  members: [ChatRoomMember];
 
   @Prop()
   @Field(() => String, { nullable: true, defaultValue: "" })

@@ -16,6 +16,6 @@ export class CreateUserInput {
   phoneNumber: string;
 
   @Field(() => String, { nullable: true, defaultValue: "" })
-  fcm_token: string;
+  fcmToken: string;
 
 }

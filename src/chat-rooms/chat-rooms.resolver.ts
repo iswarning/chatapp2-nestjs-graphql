@@ -32,4 +32,9 @@ export class ChatRoomsResolver {
   removeChatRoom(@Args('_id') id: string) {
     return this.chatRoomsService.remove(id);
   }
+
+  // @Query(() => [ChatRoom])
+  // getListChatRoomOfUser(@Args("_id") id: string) {
+  //   return this.chatRoomsService.getListChatRoomOfUser(id);
+  // }
 }

@@ -28,8 +28,8 @@ export class FriendRequestsService {
     return await this.friendRequestModel.find({ recipientId: id }).exec()
   }
 
-  async remove(id: string) {
-    const friend = await this.friendRequestModel.findOne({ _id: id })
+  remove(id: string) {
+    const friend = this.friendRequestModel.findOne({ _id: id })
     return friend.deleteOne();
   }
 }

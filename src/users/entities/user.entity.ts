@@ -1,6 +1,7 @@
 import { ObjectType, Field } from '@nestjs/graphql';
 import { Schema as MongooseSchema } from 'mongoose';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { InitialDataResponse } from '../dto/initial-data.response';
 
 @Schema()
 @ObjectType()
@@ -27,7 +28,7 @@ export class User {
 
   @Prop()
   @Field(() => String, { nullable: true, defaultValue: "" })
-  fcm_token: string;
+  fcmToken: string;
 
   @Prop()
   @Field(() => String)
@@ -36,7 +37,9 @@ export class User {
   @Prop()
   @Field(() => String)
   updatedAt: string;
-  
+
+  @Field(() => InitialDataResponse, { nullable: true })
+  initialData: InitialDataResponse;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

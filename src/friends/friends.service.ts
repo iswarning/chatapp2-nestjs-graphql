@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateFriendInput } from './dto/create-friend.input';
-import { UpdateFriendInput } from './dto/update-friend.input';
 import { InjectModel } from '@nestjs/mongoose';
 import { Friend } from './entities/friend.entity';
 import { Model } from 'mongoose';
-import { Args } from '@nestjs/graphql';
 
 @Injectable()
 export class FriendsService {
@@ -25,8 +23,8 @@ export class FriendsService {
     return await this.friendModel.find({ $or: [ { senderId: id }, { recipientId: id} ] }).exec()
   }
 
-  async remove(id: string) {
-    const friend = await this.friendModel.findOne({ _id: id })
+  remove(id: string) {
+    const friend = this.friendModel.findOne({ _id: id })
     return friend.deleteOne();
   }
 

@@ -1,12 +1,27 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
+import { ChatRoomsService } from 'src/chat-rooms/chat-rooms.service';
+import { FriendsService } from 'src/friends/friends.service';
+import { FriendRequestsService } from 'src/friend-requests/friend-requests.service';
+import { InitialDataResponse } from './dto/initial-data.response';
+import { Inject, forwardRef } from '@nestjs/common';
 
 @Resolver(() => User)
 export class UsersResolver {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+
+    private readonly usersService: UsersService,
+
+    private readonly chatRoomsService: ChatRoomsService,
+
+    private readonly friendService: FriendsService,
+
+    private readonly friendRequestService: FriendRequestsService,
+
+  ) {}
 
   @Mutation(() => User)
   createUser(@Args('createUserInput') createUserInput: CreateUserInput) {
@@ -31,5 +46,19 @@ export class UsersResolver {
   @Mutation(() => User)
   removeUser(@Args('_id') id: string) {
     return this.usersService.remove(id);
+  }
+
+  @Query(() => InitialDataResponse)
+  getInitialDataOfUser(@Args("userId") userId: string) {
+    const userInfo = this.usersService.findOne(userId)
+    const listFriend = this.friendService.getListFriendOfUser(userId)
+    const listFriendRequest = this.friendRequestService.getFriendRequestByRecipientId(userId)
+    const listChatRoom = this.chatRoomsService.getListChatRoomOfUser(userId)
+    return {
+      userInfo,
+      listFriend,
+      listFriendRequest,
+      listChatRoom,
+    }
   }
 }

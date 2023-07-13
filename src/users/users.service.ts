@@ -4,6 +4,7 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { InjectModel } from '@nestjs/mongoose';
 import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
+import { Friend } from 'src/friends/entities/friend.entity';
 
 @Injectable()
 export class UsersService {
@@ -12,13 +13,17 @@ export class UsersService {
       private readonly userModel: Model<User>,
   ) {}
   
-  create(createUserInput: CreateUserInput) {
-    const user = new this.userModel({
-      ...createUserInput,
-      createdAt: (new Date()).toLocaleString(),
-      updatedAt: (new Date()).toLocaleString()
-    });
-    return user.save();
+  async create(createUserInput: CreateUserInput) {
+    try {
+      const user = new this.userModel({
+        ...createUserInput,
+        createdAt: (new Date()).toLocaleString(),
+        updatedAt: (new Date()).toLocaleString()
+      });
+      return await user.save();
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   findAll() {

@@ -14,5 +14,6 @@ import { ChatRoom, ChatRoomSchema } from './entities/chat-room.entity';
     ]),
   ],
   providers: [ChatRoomsResolver, ChatRoomsService],
+  exports: [ChatRoomsService]
 })
 export class ChatRoomsModule {}

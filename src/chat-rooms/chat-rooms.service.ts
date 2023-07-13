@@ -51,4 +51,8 @@ export class ChatRoomsService {
     const chatRoom = await this.findOne(id);
     return chatRoom.deleteOne();
   }
+
+  async getListChatRoomOfUser(id: string) {
+    return this.chatRoomModel.find({ members: { $regex: id } }).exec()
+  }
 }

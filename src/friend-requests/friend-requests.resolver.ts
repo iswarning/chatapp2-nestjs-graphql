@@ -12,12 +12,12 @@ export class FriendRequestsResolver {
     return this.friendRequestsService.create(createFriendRequestInput);
   }
 
-  @Query(() => [FriendRequest], { name: 'getFriendRequestBySenderId' })
+  @Query(() => [FriendRequest])
   getFriendRequestBySenderId(@Args('senderId') id: string) {
     return this.friendRequestsService.getFriendRequestBySenderId(id);
   }
 
-  @Query(() => [FriendRequest], { name: 'getFriendRequestByRecipientId' })
+  @Query(() => [FriendRequest])
   getFriendRequestByRecipientId(@Args('recipientId') id: string) {
     return this.friendRequestsService.getFriendRequestByRecipientId(id);
   }
