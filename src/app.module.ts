@@ -7,10 +7,9 @@ import { MessagesModule } from './messages/messages.module';
 import { UsersModule } from './users/users.module';
 import { FriendsModule } from './friends/friends.module';
 import { FriendRequestsModule } from './friend-requests/friend-requests.module';
-import { ChatRoomMembersModule } from './chat-room-members/chat-room-members.module';
 
 @Module({
-  imports: [CommonModule, UsersModule, ChatRoomsModule, MessagesModule, ChatRoomsModule, FriendsModule, FriendRequestsModule, ChatRoomMembersModule],
+  imports: [CommonModule, UsersModule, ChatRoomsModule, MessagesModule, ChatRoomsModule, FriendsModule, FriendRequestsModule],
   controllers: [AppController],
   providers: [AppService],
 })

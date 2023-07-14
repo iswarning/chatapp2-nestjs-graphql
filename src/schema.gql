@@ -57,17 +57,13 @@ type User {
   initialData: InitialDataResponse
 }
 
-type ChatRoomMember {
-  userId: String!
-  chatRoomId: String!
-}
-
 type Query {
   users: [User!]!
   user(_id: String!): User!
   getInitialDataOfUser(userId: String!): InitialDataResponse!
   chatRooms: [ChatRoom!]!
   chatRoom(_id: String!): ChatRoom!
+  getListChatRoomOfUser(_id: String!): [ChatRoom!]!
   messages: [Message!]!
   message(_id: String!): Message!
   getAllMessagesByChatRoomId(chatRoomId: String!): [Message!]!
@@ -90,8 +86,6 @@ type Mutation {
   removeFriend(_id: String!): Friend!
   createFriendRequest(createFriendRequestInput: CreateFriendRequestInput!): FriendRequest!
   removeFriendRequest(_id: String!): FriendRequest!
-  createChatRoomMember(createChatRoomMemberInput: CreateChatRoomMemberInput!): ChatRoomMember!
-  removeChatRoomMember(removeChatRoomMemberInput: RemoveChatRoomMemberInput!): ChatRoomMember!
 }
 
 input CreateUserInput {
@@ -112,7 +106,6 @@ input UpdateUserInput {
 }
 
 input CreateChatRoomInput {
-  members: String!
   photoURL: String = ""
   isGroup: Boolean!
   name: String = ""
@@ -122,7 +115,6 @@ input CreateChatRoomInput {
 }
 
 input UpdateChatRoomInput {
-  members: String
   photoURL: String = ""
   isGroup: Boolean
   name: String = ""
@@ -155,14 +147,4 @@ input CreateFriendInput {
 input CreateFriendRequestInput {
   senderId: String!
   recipientId: String!
-}
-
-input CreateChatRoomMemberInput {
-  userId: String!
-  chatRoomId: String!
-}
-
-input RemoveChatRoomMemberInput {
-  userId: String
-  chatRoomId: String
 }
