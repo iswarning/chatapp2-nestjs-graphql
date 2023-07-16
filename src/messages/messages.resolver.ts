@@ -28,6 +28,11 @@ export class MessagesResolver {
     return this.messagesService.getAllMessagesByChatRoomId(id)
   }
 
+  @Query(() => Message,{ name: 'getLastMessage'})
+  getLastMessage(@Args('chatRoomId') id: string) {
+    return this.messagesService.getLastMessage(id)
+  }
+
   @Mutation(() => Message,{ name: 'updateMessage'})
   update(@Args('updateMessageInput') updateMessageInput: UpdateMessageInput) {
     return this.messagesService.update(updateMessageInput._id, updateMessageInput);

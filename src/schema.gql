@@ -4,7 +4,7 @@
 
 type ChatRoom {
   _id: String!
-  members: String!
+  members: [String!]!
   photoURL: String
   isGroup: Boolean!
   name: String
@@ -57,11 +57,6 @@ type User {
   initialData: InitialDataResponse
 }
 
-type ChatRoomMember {
-  userId: String!
-  chatRoomId: String!
-}
-
 type Query {
   users: [User!]!
   user(_id: String!): User!
@@ -71,6 +66,7 @@ type Query {
   messages: [Message!]!
   message(_id: String!): Message!
   getAllMessagesByChatRoomId(chatRoomId: String!): [Message!]!
+  getLastMessage(chatRoomId: String!): Message!
   getListFriendOfUser(userId: String!): [Friend!]!
   getFriendRequestBySenderId(senderId: String!): [FriendRequest!]!
   getFriendRequestByRecipientId(recipientId: String!): [FriendRequest!]!
@@ -90,8 +86,6 @@ type Mutation {
   removeFriend(_id: String!): Friend!
   createFriendRequest(createFriendRequestInput: CreateFriendRequestInput!): FriendRequest!
   removeFriendRequest(_id: String!): FriendRequest!
-  createChatRoomMember(createChatRoomMemberInput: CreateChatRoomMemberInput!): ChatRoomMember!
-  removeChatRoomMember(removeChatRoomMemberInput: RemoveChatRoomMemberInput!): ChatRoomMember!
 }
 
 input CreateUserInput {
@@ -112,23 +106,19 @@ input UpdateUserInput {
 }
 
 input CreateChatRoomInput {
-  members: String!
+  members: [String!]!
   photoURL: String = ""
   isGroup: Boolean!
   name: String = ""
   admin: String = ""
-  createdAt: String!
-  updatedAt: String!
 }
 
 input UpdateChatRoomInput {
-  members: String
+  members: [String!]
   photoURL: String = ""
   isGroup: Boolean
   name: String = ""
   admin: String = ""
-  createdAt: String
-  updatedAt: String
   _id: String!
 }
 
@@ -137,6 +127,7 @@ input CreateMessageInput {
   type: String!
   senderId: String!
   seen: String = ""
+  chatRoomId: String!
 }
 
 input UpdateMessageInput {
@@ -144,6 +135,7 @@ input UpdateMessageInput {
   type: String
   senderId: String
   seen: String = ""
+  chatRoomId: String
   _id: String!
 }
 
@@ -155,14 +147,4 @@ input CreateFriendInput {
 input CreateFriendRequestInput {
   senderId: String!
   recipientId: String!
-}
-
-input CreateChatRoomMemberInput {
-  userId: String!
-  chatRoomId: String!
-}
-
-input RemoveChatRoomMemberInput {
-  userId: String
-  chatRoomId: String
 }

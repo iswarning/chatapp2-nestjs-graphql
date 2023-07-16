@@ -15,6 +15,10 @@ export class UsersService {
   
   async create(createUserInput: CreateUserInput) {
     try {
+      const userExist = await this.userModel.find({ email: createUserInput.email }).findOne().exec()
+      if(userExist) {
+        return userExist
+      }
       const user = new this.userModel({
         ...createUserInput,
         createdAt: (new Date()).toLocaleString(),
