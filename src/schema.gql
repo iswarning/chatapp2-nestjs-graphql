@@ -4,7 +4,7 @@
 
 type ChatRoom {
   _id: String!
-  members: String!
+  members: [String!]!
   photoURL: String
   isGroup: Boolean!
   name: String
@@ -67,6 +67,7 @@ type Query {
   messages: [Message!]!
   message(_id: String!): Message!
   getAllMessagesByChatRoomId(chatRoomId: String!): [Message!]!
+  getLastMessage(chatRoomId: String!): Message!
   getListFriendOfUser(userId: String!): [Friend!]!
   getFriendRequestBySenderId(senderId: String!): [FriendRequest!]!
   getFriendRequestByRecipientId(recipientId: String!): [FriendRequest!]!
@@ -106,21 +107,19 @@ input UpdateUserInput {
 }
 
 input CreateChatRoomInput {
+  members: [String!]!
   photoURL: String = ""
   isGroup: Boolean!
   name: String = ""
   admin: String = ""
-  createdAt: String!
-  updatedAt: String!
 }
 
 input UpdateChatRoomInput {
+  members: [String!]
   photoURL: String = ""
   isGroup: Boolean
   name: String = ""
   admin: String = ""
-  createdAt: String
-  updatedAt: String
   _id: String!
 }
 
@@ -129,6 +128,7 @@ input CreateMessageInput {
   type: String!
   senderId: String!
   seen: String = ""
+  chatRoomId: String!
 }
 
 input UpdateMessageInput {
@@ -136,6 +136,7 @@ input UpdateMessageInput {
   type: String
   senderId: String
   seen: String = ""
+  chatRoomId: String
   _id: String!
 }
 

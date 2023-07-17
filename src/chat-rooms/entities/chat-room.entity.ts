@@ -9,9 +9,8 @@ export class ChatRoom {
   @Field(() => String)
   _id: MongooseSchema.Types.ObjectId;
 
-  @Prop()
-  @Field(() => String)
-  members: string;
+  @Field(() => [String])
+  members: string[];
 
   @Prop()
   @Field(() => String, { nullable: true, defaultValue: "" })

@@ -14,5 +14,8 @@ export class CreateMessageInput {
 
   @Field(() => String, { nullable: true, defaultValue: "" })
   seen: string;
+
+  @Field(() => String)
+  chatRoomId: string;
   
 }

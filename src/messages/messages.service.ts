@@ -29,6 +29,10 @@ export class MessagesService {
         return await this.messageModel.find({ chatRoomId: chatRoomId }).exec()
     }
 
+    async getLastMessage(chatRoomId: string) {
+        return await this.messageModel.find({ chatRoomId: chatRoomId }).sort({ createdAt: -1 }).findOne().exec()
+    }
+
     async findOne(id: string) {
         const message = await this.messageModel.findOne({ _id: id }).exec();
         if (!message) {

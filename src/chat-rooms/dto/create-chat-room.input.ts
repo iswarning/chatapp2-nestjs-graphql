@@ -1,8 +1,10 @@
 import { InputType, Field, ObjectType } from '@nestjs/graphql';
 
 @InputType()
-@ObjectType()
 export class CreateChatRoomInput {
+
+  @Field(() => [String])
+  members: string[];
 
   @Field(() => String, { nullable: true, defaultValue: "" })
   photoURL: string;
@@ -15,11 +17,5 @@ export class CreateChatRoomInput {
 
   @Field(() => String, { nullable: true, defaultValue: "" })
   admin: string;
-
-  @Field(() => String)
-  createdAt: string;
-
-  @Field(() => String)
-  updatedAt: string;
 
 }
