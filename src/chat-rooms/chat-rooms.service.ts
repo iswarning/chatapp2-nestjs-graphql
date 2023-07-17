@@ -12,13 +12,13 @@ export class ChatRoomsService {
       private readonly chatRoomModel: Model<ChatRoom>,
   ) {}
 
-  create(createChatRoomInput: CreateChatRoomInput) {
+  async create(createChatRoomInput: CreateChatRoomInput) {
     const chatRoom = new this.chatRoomModel({
       ...createChatRoomInput,
       createdAt: (new Date()).toLocaleString(),
       updatedAt: (new Date()).toLocaleString()
     });
-    return chatRoom.save();
+    return await chatRoom.save()
   }
 
   findAll() {
