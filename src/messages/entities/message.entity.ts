@@ -26,6 +26,14 @@ export class Message {
   seen: string;
 
   @Prop()
+  @Field(() => String, { nullable: true, defaultValue: "" })
+  file: string;
+
+  @Prop()
+  @Field(() => String, { nullable: true, defaultValue: "" })
+  images: string;
+
+  @Prop()
   @Field(() => String)
   chatRoomId: string;
 
