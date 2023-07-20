@@ -59,6 +59,27 @@ type User {
   initialData: InitialDataResponse
 }
 
+type DataNotify {
+  message: Message
+  chatRoom: ChatRoom
+  friend: Friend
+}
+
+type DataVideoCall {
+  fullNameCaller: String
+  chatRoomId: String
+  isGroup: Boolean
+}
+
+type NotifyResponse {
+  message: String
+  type: String!
+  senderId: String!
+  recipientId: String!
+  dataVideoCall: DataVideoCall
+  dataNotify: DataNotify
+}
+
 type Query {
   users: [User!]!
   user(_id: String!): User!
@@ -89,6 +110,7 @@ type Mutation {
   removeFriend(_id: String!): Friend!
   createFriendRequest(createFriendRequestInput: CreateFriendRequestInput!): FriendRequest!
   removeFriendRequest(_id: String!): FriendRequest!
+  videoCall: NotifyResponse!
 }
 
 input CreateUserInput {
@@ -154,4 +176,9 @@ input CreateFriendInput {
 input CreateFriendRequestInput {
   senderId: String!
   recipientId: String!
+}
+
+type Subscription {
+  onSub: NotifyResponse!
+  onCall: NotifyResponse!
 }

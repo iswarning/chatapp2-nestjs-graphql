@@ -3,6 +3,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MessagesService } from './messages.service';
 import { MessagesResolver } from './messages.resolver';
 import { Message, MessageSchema } from './entities/message.entity';
+import { ChatRoomsService } from 'src/chat-rooms/chat-rooms.service';
+import { ChatRoom, ChatRoomSchema } from 'src/chat-rooms/entities/chat-room.entity';
 
 @Module({
   imports: [
@@ -11,8 +13,12 @@ import { Message, MessageSchema } from './entities/message.entity';
         name: Message.name,
         schema: MessageSchema,
       },
+      {
+        name: ChatRoom.name,
+        schema: ChatRoomSchema,
+      },
     ]),
   ],
-  providers: [MessagesResolver, MessagesService],
+  providers: [MessagesResolver, MessagesService, ChatRoomsService],
 })
 export class MessagesModule {}
