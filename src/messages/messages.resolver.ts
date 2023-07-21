@@ -9,6 +9,7 @@ import { NotifyResponse } from './dto/notify.response';
 import { ChatRoomsService } from 'src/chat-rooms/chat-rooms.service';
 
 const pubSub =  new PubSub();
+const TRIGGER_NOTIFY = "publisher-notify"
 @Resolver(() => Message)
 export class MessagesResolver {
   constructor(private readonly messagesService: MessagesService,
@@ -18,7 +19,7 @@ export class MessagesResolver {
   async create(@Args('createMessageInput') createMessageInput: CreateMessageInput) {
     const newMessage = await this.messagesService.create(createMessageInput);
     const chatRoom = await this.chatRoomsService.findOne(createMessageInput.chatRoomId)
-    pubSub.publish("publisher-notify", { onSub: {
+    pubSub.publish(TRIGGER_NOTIFY, { onSub: {
       senderId: createMessageInput.senderId,
       type: "send-message",
       message: `${createMessageInput.senderId} has sent a message`,
@@ -30,6 +31,11 @@ export class MessagesResolver {
     return newMessage
   }
 
+  @Subscription(() => NotifyResponse)
+  onSub() {
+      return pubSub.asyncIterator(TRIGGER_NOTIFY)
+  }
+
   @Query(() => [Message],{ name: 'messages'})
   findAll() {
     return this.messagesService.findAll();
@@ -38,6 +44,11 @@ export class MessagesResolver {
   @Query(() => Message,{ name: 'message'})
   findOne(@Args('_id') id: string) {
     return this.messagesService.findOne(id);
+  }
+
+  @Query(() => Message)
+  getFileByKey(@Args('key') key: string) {
+    return this.messagesService.getFileByKey(key);
   }
 
   @Query(() => [Message],{ name: 'getAllMessagesByChatRoomId'})

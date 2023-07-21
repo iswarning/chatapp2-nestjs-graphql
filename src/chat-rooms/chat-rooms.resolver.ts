@@ -1,9 +1,14 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Subscription } from '@nestjs/graphql';
 import { ChatRoomsService } from './chat-rooms.service';
 import { ChatRoom } from './entities/chat-room.entity';
 import { CreateChatRoomInput } from './dto/create-chat-room.input';
 import { UpdateChatRoomInput } from './dto/update-chat-room.input';
+import { NotifyResponse } from 'src/messages/dto/notify.response';
+import { PubSub } from 'graphql-subscriptions';
 
+const pubSub =  new PubSub();
+
+const TRIGGER_CALL = "publisher-call"
 @Resolver(() => ChatRoom)
 export class ChatRoomsResolver {
   constructor(private readonly chatRoomsService: ChatRoomsService) {}
@@ -36,5 +41,18 @@ export class ChatRoomsResolver {
   @Query(() => [ChatRoom])
   getListChatRoomOfUser(@Args("_id") id: string) {
     return this.chatRoomsService.getListChatRoomOfUser(id);
+  }
+
+  @Subscription(() => NotifyResponse)
+    onCall() {
+        return pubSub.asyncIterator(TRIGGER_CALL)
+    }
+
+  @Mutation(() => NotifyResponse)
+  videoCall(notifyData: NotifyResponse) {
+      pubSub.publish("publisher-call", {
+          onCall: notifyData
+      })
+      return notifyData
   }
 }

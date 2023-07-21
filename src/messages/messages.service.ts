@@ -25,6 +25,10 @@ export class MessagesService {
         return this.messageModel.find().exec();
     }
 
+    getFileByKey(key: string) {
+        return this.messageModel.find({ file: key }).findOne().exec()
+    }
+
     async getAllMessagesByChatRoomId(chatRoomId: string) {
         return await this.messageModel.find({ chatRoomId: chatRoomId }).exec()
     }

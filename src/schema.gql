@@ -33,6 +33,27 @@ type Friend {
   createdAt: String!
 }
 
+type DataNotify {
+  message: Message
+  chatRoom: ChatRoom
+  friend: Friend
+}
+
+type DataVideoCall {
+  fullNameCaller: String
+  chatRoomId: String
+  isGroup: Boolean
+}
+
+type NotifyResponse {
+  message: String
+  type: String!
+  senderId: String!
+  recipientId: String!
+  dataVideoCall: DataVideoCall
+  dataNotify: DataNotify
+}
+
 type FriendRequest {
   _id: String!
   senderId: String!
@@ -59,27 +80,6 @@ type User {
   initialData: InitialDataResponse
 }
 
-type DataNotify {
-  message: Message
-  chatRoom: ChatRoom
-  friend: Friend
-}
-
-type DataVideoCall {
-  fullNameCaller: String
-  chatRoomId: String
-  isGroup: Boolean
-}
-
-type NotifyResponse {
-  message: String
-  type: String!
-  senderId: String!
-  recipientId: String!
-  dataVideoCall: DataVideoCall
-  dataNotify: DataNotify
-}
-
 type Query {
   users: [User!]!
   user(_id: String!): User!
@@ -89,6 +89,7 @@ type Query {
   getListChatRoomOfUser(_id: String!): [ChatRoom!]!
   messages: [Message!]!
   message(_id: String!): Message!
+  getFileByKey(key: String!): Message!
   getAllMessagesByChatRoomId(chatRoomId: String!): [Message!]!
   getLastMessage(chatRoomId: String!): Message!
   getListFriendOfUser(userId: String!): [Friend!]!
@@ -103,6 +104,7 @@ type Mutation {
   createChatRoom(createChatRoomInput: CreateChatRoomInput!): ChatRoom!
   updateChatRoom(updateChatRoomInput: UpdateChatRoomInput!): ChatRoom!
   removeChatRoom(_id: String!): ChatRoom!
+  videoCall: NotifyResponse!
   createMessage(createMessageInput: CreateMessageInput!): Message!
   updateMessage(updateMessageInput: UpdateMessageInput!): Message!
   removeMessage(_id: String!): Message!
@@ -110,7 +112,6 @@ type Mutation {
   removeFriend(_id: String!): Friend!
   createFriendRequest(createFriendRequestInput: CreateFriendRequestInput!): FriendRequest!
   removeFriendRequest(_id: String!): FriendRequest!
-  videoCall: NotifyResponse!
 }
 
 input CreateUserInput {
@@ -179,6 +180,6 @@ input CreateFriendRequestInput {
 }
 
 type Subscription {
-  onSub: NotifyResponse!
   onCall: NotifyResponse!
+  onSub: NotifyResponse!
 }
