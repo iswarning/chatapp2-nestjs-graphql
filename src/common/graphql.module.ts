@@ -11,8 +11,8 @@ import { join } from 'path';
       driver: ApolloDriver,
       installSubscriptionHandlers: true,
       subscriptions: {
-        'subscriptions-transport-ws': {
-          path: '/graphql'
+        'graphql-ws': {
+          path: '/subscriptions'
         }
       }
     }),

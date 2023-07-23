@@ -11,12 +11,12 @@ export class FriendsService {
       private readonly friendModel: Model<Friend>,
   ) {}
 
-  create(createFriendInput: CreateFriendInput) {
+  async create(createFriendInput: CreateFriendInput) {
     const friend = new this.friendModel({
       ...createFriendInput,
       createdAt: (new Date()).toLocaleString()
     });
-    return friend.save();
+    return await friend.save();
   }
 
   async getListFriendOfUser(id: string) {

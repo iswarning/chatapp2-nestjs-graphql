@@ -21,6 +21,7 @@ type Message {
   seen: String
   file: String
   images: String
+  reaction: String
   chatRoomId: String!
   createdAt: String!
   updatedAt: String!
@@ -38,6 +39,28 @@ type FriendRequest {
   senderId: String!
   recipientId: String!
   createdAt: String!
+}
+
+type DataNotify {
+  message: Message
+  chatRoom: ChatRoom
+  friend: Friend
+  friendRequest: FriendRequest
+}
+
+type DataVideoCall {
+  fullNameCaller: String
+  chatRoomId: String
+  isGroup: Boolean
+}
+
+type NotifyResponse {
+  message: String
+  type: String!
+  senderId: String!
+  recipientId: String!
+  dataVideoCall: DataVideoCall
+  dataNotify: DataNotify
 }
 
 type InitialDataResponse {
@@ -59,29 +82,9 @@ type User {
   initialData: InitialDataResponse
 }
 
-type DataNotify {
-  message: Message
-  chatRoom: ChatRoom
-  friend: Friend
-}
-
-type DataVideoCall {
-  fullNameCaller: String
-  chatRoomId: String
-  isGroup: Boolean
-}
-
-type NotifyResponse {
-  message: String
-  type: String!
-  senderId: String!
-  recipientId: String!
-  dataVideoCall: DataVideoCall
-  dataNotify: DataNotify
-}
-
 type Query {
   users: [User!]!
+  findUserSuggestion(userId: String!): [User!]!
   user(_id: String!): User!
   getInitialDataOfUser(userId: String!): InitialDataResponse!
   chatRooms: [ChatRoom!]!
@@ -103,6 +106,7 @@ type Mutation {
   createChatRoom(createChatRoomInput: CreateChatRoomInput!): ChatRoom!
   updateChatRoom(updateChatRoomInput: UpdateChatRoomInput!): ChatRoom!
   removeChatRoom(_id: String!): ChatRoom!
+  videoCall: NotifyResponse!
   createMessage(createMessageInput: CreateMessageInput!): Message!
   updateMessage(updateMessageInput: UpdateMessageInput!): Message!
   removeMessage(_id: String!): Message!
@@ -110,7 +114,6 @@ type Mutation {
   removeFriend(_id: String!): Friend!
   createFriendRequest(createFriendRequestInput: CreateFriendRequestInput!): FriendRequest!
   removeFriendRequest(_id: String!): FriendRequest!
-  videoCall: NotifyResponse!
 }
 
 input CreateUserInput {
@@ -154,6 +157,9 @@ input CreateMessageInput {
   seen: String = ""
   file: String = ""
   images: String = ""
+  reaction: String = ""
+  createdAt: String = ""
+  updatedAt: String = ""
   chatRoomId: String!
 }
 
@@ -164,6 +170,9 @@ input UpdateMessageInput {
   seen: String = ""
   file: String = ""
   images: String = ""
+  reaction: String = ""
+  createdAt: String = ""
+  updatedAt: String = ""
   chatRoomId: String
   _id: String!
 }
@@ -179,6 +188,6 @@ input CreateFriendRequestInput {
 }
 
 type Subscription {
-  onSub: NotifyResponse!
   onCall: NotifyResponse!
+  onSub: NotifyResponse!
 }

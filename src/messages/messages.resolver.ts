@@ -7,27 +7,36 @@ import { PubSub } from 'graphql-subscriptions';
 import { ChatRoom } from 'src/chat-rooms/entities/chat-room.entity';
 import { NotifyResponse } from './dto/notify.response';
 import { ChatRoomsService } from 'src/chat-rooms/chat-rooms.service';
+import { UsersService } from 'src/users/users.service';
 
 const pubSub =  new PubSub();
 @Resolver(() => Message)
 export class MessagesResolver {
   constructor(private readonly messagesService: MessagesService,
-    private readonly chatRoomsService: ChatRoomsService) {}
+    private readonly chatRoomsService: ChatRoomsService,
+    private readonly userService: UsersService,
+    ) {}
 
   @Mutation(() => Message,{ name: 'createMessage'})
   async create(@Args('createMessageInput') createMessageInput: CreateMessageInput) {
     const newMessage = await this.messagesService.create(createMessageInput);
-    const chatRoom = await this.chatRoomsService.findOne(createMessageInput.chatRoomId)
+    const chatRoom = await this.chatRoomsService.findOne(createMessageInput.chatRoomId) 
+    const userInfo = await this.userService.findOne(createMessageInput.senderId)
     pubSub.publish("publisher-notify", { onSub: {
       senderId: createMessageInput.senderId,
       type: "send-message",
-      message: `${createMessageInput.senderId} has sent a message`,
+      message: `${userInfo.fullName} has sent a message`,
       recipientId: JSON.stringify(chatRoom.members),
       dataNotify: {
         message: newMessage
       }
     } as NotifyResponse })
     return newMessage
+  }
+
+  @Subscription(() => NotifyResponse)
+  onSub() {
+      return pubSub.asyncIterator("publisher-notify")
   }
 
   @Query(() => [Message],{ name: 'messages'})

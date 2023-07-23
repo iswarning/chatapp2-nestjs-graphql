@@ -34,6 +34,10 @@ export class Message {
   images: string;
 
   @Prop()
+  @Field(() => String, { nullable: true, defaultValue: "" })
+  reaction: string;
+
+  @Prop()
   @Field(() => String)
   chatRoomId: string;
 

@@ -2,6 +2,7 @@ import { Field, ObjectType } from "@nestjs/graphql";
 import { Message } from "../entities/message.entity";
 import { ChatRoom } from "src/chat-rooms/entities/chat-room.entity";
 import { Friend } from "src/friends/entities/friend.entity";
+import { FriendRequest } from "src/friend-requests/entities/friend-request.entity";
 
 @ObjectType()
 export class DataNotify {
@@ -14,6 +15,9 @@ export class DataNotify {
 
     @Field(() => Friend, { nullable: true })
     friend?: Friend
+
+    @Field(() => FriendRequest, { nullable: true })
+    friendRequest?: FriendRequest
 }
 
 @ObjectType()
