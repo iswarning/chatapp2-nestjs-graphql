@@ -7,8 +7,6 @@ import { NotifyResponse } from 'src/messages/dto/notify.response';
 import { PubSub } from 'graphql-subscriptions';
 
 const pubSub =  new PubSub();
-
-const TRIGGER_CALL = "publisher-call"
 @Resolver(() => ChatRoom)
 export class ChatRoomsResolver {
   constructor(private readonly chatRoomsService: ChatRoomsService) {}
@@ -44,9 +42,9 @@ export class ChatRoomsResolver {
   }
 
   @Subscription(() => NotifyResponse)
-    onCall() {
-        return pubSub.asyncIterator(TRIGGER_CALL)
-    }
+  onCall() {
+      return pubSub.asyncIterator("publisher-notify")
+  }
 
   @Mutation(() => NotifyResponse)
   videoCall(notifyData: NotifyResponse) {

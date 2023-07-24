@@ -31,6 +31,7 @@ import { FriendRequest, FriendRequestSchema } from 'src/friend-requests/entities
       },
     ]),
   ],
-  providers: [UsersResolver, UsersService, ChatRoomsService, FriendsService, FriendRequestsService]
+  providers: [UsersResolver, UsersService, ChatRoomsService, FriendsService, FriendRequestsService],
+  exports: [UsersService]
 })
 export class UsersModule {}

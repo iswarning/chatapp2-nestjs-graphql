@@ -33,6 +33,16 @@ export class UsersResolver {
     return this.usersService.findAll();
   }
 
+  @Query(() => [User])
+  async findUserSuggestion(@Args('userId') userId: string) {
+    const listFriend = await this.friendService.getListFriendOfUser(userId)
+    const listFriendRequest = await this.friendRequestService.getFriendRequestByRecipientId(userId)
+    const result = await this.usersService.findAll()
+    return result.filter((user) => 
+      listFriend.find((f) => f.senderId !== user._id.instance || f.recipientId !== user._id.instance ) ||
+      listFriendRequest.find((f) => f.senderId !== user._id.instance || f.recipientId !== user._id.instance ))
+  }
+
   @Query(() => User, { name: 'user' })
   findOne(@Args('_id') id: string) {
     return this.usersService.findOne(id);

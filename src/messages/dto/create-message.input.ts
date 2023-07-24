@@ -21,6 +21,15 @@ export class CreateMessageInput {
   @Field(() => String, { nullable: true, defaultValue: "" })
   images: string;
 
+  @Field(() => String, { nullable: true, defaultValue: "" })
+  reaction: string;
+
+  @Field(() => String, { nullable: true, defaultValue: "" })
+  createdAt: string;
+  
+  @Field(() => String, { nullable: true, defaultValue: "" })
+  updatedAt: string;
+
   @Field(() => String)
   chatRoomId: string;
   

@@ -18,6 +18,9 @@ export class MessagesService {
             createdAt: (new Date()).toLocaleString(),
             updatedAt: (new Date()).toLocaleString()
         });
+        this.messageModel.createIndexes({
+            
+        })
         return message.save();
     }
 

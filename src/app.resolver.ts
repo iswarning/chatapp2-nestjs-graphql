@@ -1,8 +1,4 @@
-import { Mutation, Resolver, Subscription } from "@nestjs/graphql";
-import { PubSub } from "graphql-subscriptions";
-import { NotifyResponse } from "./messages/dto/notify.response";
-
-
+import { Resolver } from "@nestjs/graphql";
 
 @Resolver()
 export class AppResolver {

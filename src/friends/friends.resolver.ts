@@ -2,14 +2,32 @@ import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { FriendsService } from './friends.service';
 import { Friend } from './entities/friend.entity';
 import { CreateFriendInput } from './dto/create-friend.input';
+import { PubSub } from 'graphql-subscriptions';
+import { UsersService } from 'src/users/users.service';
+
+const pubSub = new PubSub()
 
 @Resolver(() => Friend)
 export class FriendsResolver {
-  constructor(private readonly friendsService: FriendsService) {}
+  constructor(private readonly friendsService: FriendsService,
+    private readonly userService: UsersService) {}
 
   @Mutation(() => Friend)
-  createFriend(@Args('createFriendInput') createFriendInput: CreateFriendInput) {
-    return this.friendsService.create(createFriendInput);
+  async createFriend(@Args('createFriendInput') createFriendInput: CreateFriendInput) {
+    let payload = await this.friendsService.create(createFriendInput)
+    let userInfo = await this.userService.findOne(payload.senderId)
+    pubSub.publish("publisher-notify", {
+      onSub: {
+        senderId: payload.senderId,
+        type: "accept-friend-request",
+        message: `${userInfo.fullName} accepted a friend request !`,
+        recipientId: payload.recipientId,
+        dataNotify: {
+          friend: payload,
+        }
+      }
+    })
+    return payload;
   }
 
   @Query(() => [Friend], { name: 'getListFriendOfUser' })
@@ -18,7 +36,16 @@ export class FriendsResolver {
   }
 
   @Mutation(() => Friend)
-  removeFriend(@Args('_id') id : string) {
-    return this.friendsService.remove(id);
+  async removeFriend(@Args('_id') id : string) {
+    let payload = await this.friendsService.remove(id)
+    pubSub.publish("publisher-notify", {
+      onSub: {
+        senderId: payload.senderId,
+        type: "unfriend",
+        message: id,
+        recipientId: payload.recipientId,
+      }
+    })
+    return payload;
   }
 }

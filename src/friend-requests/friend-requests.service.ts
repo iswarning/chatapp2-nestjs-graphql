@@ -12,12 +12,12 @@ export class FriendRequestsService {
       private readonly friendRequestModel: Model<FriendRequest>,
   ) {}
 
-  create(createFriendRequestInput: CreateFriendRequestInput) {
+  async create(createFriendRequestInput: CreateFriendRequestInput) {
     const friendRequest = new this.friendRequestModel({
       ...createFriendRequestInput,
       createdAt: (new Date()).toLocaleString()
     });
-    return friendRequest.save();
+    return await friendRequest.save();
   }
 
   async getFriendRequestBySenderId(@Args("senderId") id: string) {
