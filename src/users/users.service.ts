@@ -5,6 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { User } from './entities/user.entity';
 import { Model } from 'mongoose';
 import { Friend } from 'src/friends/entities/friend.entity';
+import { RtcRole, RtcTokenBuilder } from 'agora-token';
 
 @Injectable()
 export class UsersService {
@@ -59,5 +60,24 @@ export class UsersService {
   async remove(id: string) {
     const user = await this.findOne(id);
     return user.deleteOne();
+  }
+
+  generateRtcToken(chatRoomId: string, userId: string) {
+
+    const appId = process.env.AGORA_APP_ID;
+    const appCertificate = process.env.AGORA_APP_CERTIFICATE;
+    const channelName = chatRoomId;
+    const uid = userId;
+    const role = RtcRole.PUBLISHER;
+
+    const expirationTimeInSeconds = 3600
+
+    const currentTimestamp = Math.floor(Date.now() / 1000)
+
+    const privilegeExpiredTs = currentTimestamp + expirationTimeInSeconds
+
+    const tokenA = RtcTokenBuilder.buildTokenWithUid(appId, appCertificate, channelName, uid, role, privilegeExpiredTs, privilegeExpiredTs);
+    
+    return tokenA
   }
 }

@@ -34,27 +34,6 @@ type Friend {
   createdAt: String!
 }
 
-type DataNotify {
-  message: Message
-  chatRoom: ChatRoom
-  friend: Friend
-}
-
-type DataVideoCall {
-  fullNameCaller: String
-  chatRoomId: String
-  isGroup: Boolean
-}
-
-type NotifyResponse {
-  message: String
-  type: String!
-  senderId: String!
-  recipientId: String!
-  dataVideoCall: DataVideoCall
-  dataNotify: DataNotify
-}
-
 type FriendRequest {
   _id: String!
   senderId: String!
@@ -70,7 +49,8 @@ type DataNotify {
 }
 
 type DataVideoCall {
-  fullNameCaller: String
+  fullName: String
+  photoURL: String
   chatRoomId: String
   isGroup: Boolean
 }
@@ -108,6 +88,7 @@ type Query {
   findUserSuggestion(userId: String!): [User!]!
   user(_id: String!): User!
   getInitialDataOfUser(userId: String!): InitialDataResponse!
+  generateRtcToken(generateRtcTokenInput: GenerateRtcTokenInput!): String!
   chatRooms: [ChatRoom!]!
   chatRoom(_id: String!): ChatRoom!
   getListChatRoomOfUser(_id: String!): [ChatRoom!]!
@@ -121,6 +102,11 @@ type Query {
   getFriendRequestByRecipientId(recipientId: String!): [FriendRequest!]!
 }
 
+input GenerateRtcTokenInput {
+  chatRoomId: String!
+  userId: String!
+}
+
 type Mutation {
   createUser(createUserInput: CreateUserInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
@@ -128,7 +114,7 @@ type Mutation {
   createChatRoom(createChatRoomInput: CreateChatRoomInput!): ChatRoom!
   updateChatRoom(updateChatRoomInput: UpdateChatRoomInput!): ChatRoom!
   removeChatRoom(_id: String!): ChatRoom!
-  videoCall: NotifyResponse!
+  videoCall(notifyInput: NotifyInput!): NotifyResponse!
   createMessage(createMessageInput: CreateMessageInput!): Message!
   updateMessage(updateMessageInput: UpdateMessageInput!): Message!
   removeMessage(_id: String!): Message!
@@ -170,6 +156,17 @@ input UpdateChatRoomInput {
   name: String = ""
   admin: String = ""
   _id: String!
+}
+
+input NotifyInput {
+  message: String
+  type: String!
+  senderId: String!
+  recipientId: String!
+  fullName: String
+  photoURL: String
+  chatRoomId: String
+  isGroup: Boolean
 }
 
 input CreateMessageInput {

@@ -1,4 +1,4 @@
-import { Field, ObjectType } from "@nestjs/graphql";
+import { Field, InputType, ObjectType } from "@nestjs/graphql";
 import { Message } from "../entities/message.entity";
 import { ChatRoom } from "src/chat-rooms/entities/chat-room.entity";
 import { Friend } from "src/friends/entities/friend.entity";
@@ -24,7 +24,10 @@ export class DataNotify {
 export class DataVideoCall {
 
     @Field(() => String, { nullable: true })
-    fullNameCaller?: string
+    fullName?: string
+
+    @Field(() => String, { nullable: true })
+    photoURL?: string
 
     @Field(() => String, { nullable: true })
     chatRoomId?: string

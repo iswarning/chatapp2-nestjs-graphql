@@ -5,6 +5,7 @@ import { CreateChatRoomInput } from './dto/create-chat-room.input';
 import { UpdateChatRoomInput } from './dto/update-chat-room.input';
 import { NotifyResponse } from 'src/messages/dto/notify.response';
 import { PubSub } from 'graphql-subscriptions';
+import { NotifyInput } from 'src/messages/dto/notify.input';
 
 const pubSub =  new PubSub();
 @Resolver(() => ChatRoom)
@@ -41,16 +42,28 @@ export class ChatRoomsResolver {
     return this.chatRoomsService.getListChatRoomOfUser(id);
   }
 
-  @Subscription(() => NotifyResponse)
-  onCall() {
-      return pubSub.asyncIterator("publisher-notify")
+  @Mutation(() => NotifyResponse)
+  videoCall(@Args("notifyInput") notifyInput: NotifyInput) {
+    let data: NotifyResponse = {
+      senderId: notifyInput.senderId,
+      message: notifyInput.message,
+      type: notifyInput.type,
+      recipientId: notifyInput.recipientId,
+      dataVideoCall: {
+        chatRoomId: notifyInput.chatRoomId,
+        fullName: notifyInput.fullName,
+        photoURL: notifyInput.photoURL,
+        isGroup: notifyInput.isGroup
+      }
+    }
+    pubSub.publish("publisher-call", {
+        onCall: data
+    })
+    return data
   }
 
-  @Mutation(() => NotifyResponse)
-  videoCall(notifyData: NotifyResponse) {
-      pubSub.publish("publisher-call", {
-          onCall: notifyData
-      })
-      return notifyData
+  @Subscription(() => NotifyResponse)
+  onCall() {
+      return pubSub.asyncIterator("publisher-call")
   }
 }

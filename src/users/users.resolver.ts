@@ -8,6 +8,7 @@ import { FriendsService } from 'src/friends/friends.service';
 import { FriendRequestsService } from 'src/friend-requests/friend-requests.service';
 import { InitialDataResponse } from './dto/initial-data.response';
 import { Inject, forwardRef } from '@nestjs/common';
+import { GenerateRtcTokenInput } from './dto/generate-rtc-token.input';
 
 @Resolver(() => User)
 export class UsersResolver {
@@ -70,5 +71,10 @@ export class UsersResolver {
       listFriendRequest,
       listChatRoom,
     }
+  }
+
+  @Query(() => String) 
+  generateRtcToken(@Args("generateRtcTokenInput") generateRtcTokenInput: GenerateRtcTokenInput) {
+    return this.usersService.generateRtcToken(generateRtcTokenInput.chatRoomId, generateRtcTokenInput.userId)
   }
 }
