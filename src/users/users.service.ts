@@ -62,12 +62,12 @@ export class UsersService {
     return user.deleteOne();
   }
 
-  generateRtcToken(chatRoomId: string, userId: string) {
+  generateRtcToken(chatRoomId: string) {
 
     const appId = process.env.AGORA_APP_ID;
     const appCertificate = process.env.AGORA_APP_CERTIFICATE;
     const channelName = chatRoomId;
-    const uid = userId;
+    const uid = 0;
     const role = RtcRole.PUBLISHER;
 
     const expirationTimeInSeconds = 3600

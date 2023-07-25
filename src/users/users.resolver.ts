@@ -75,6 +75,6 @@ export class UsersResolver {
 
   @Query(() => String) 
   generateRtcToken(@Args("generateRtcTokenInput") generateRtcTokenInput: GenerateRtcTokenInput) {
-    return this.usersService.generateRtcToken(generateRtcTokenInput.chatRoomId, generateRtcTokenInput.userId)
+    return this.usersService.generateRtcToken(generateRtcTokenInput.chatRoomId)
   }
 }

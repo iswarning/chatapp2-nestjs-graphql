@@ -53,6 +53,7 @@ type DataVideoCall {
   photoURL: String
   chatRoomId: String
   isGroup: Boolean
+  accessToken: String
 }
 
 type NotifyResponse {
@@ -104,7 +105,6 @@ type Query {
 
 input GenerateRtcTokenInput {
   chatRoomId: String!
-  userId: String!
 }
 
 type Mutation {
@@ -167,6 +167,7 @@ input NotifyInput {
   photoURL: String
   chatRoomId: String
   isGroup: Boolean
+  accessToken: String
 }
 
 input CreateMessageInput {

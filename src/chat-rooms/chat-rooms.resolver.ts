@@ -53,7 +53,8 @@ export class ChatRoomsResolver {
         chatRoomId: notifyInput.chatRoomId,
         fullName: notifyInput.fullName,
         photoURL: notifyInput.photoURL,
-        isGroup: notifyInput.isGroup
+        isGroup: notifyInput.isGroup,
+        accessToken: notifyInput.accessToken
       }
     }
     pubSub.publish("publisher-call", {

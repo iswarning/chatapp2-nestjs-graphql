@@ -6,7 +6,4 @@ export class GenerateRtcTokenInput {
     @Field(() => String)
     chatRoomId: string
 
-    @Field(() => String)
-    userId: string
-
 }

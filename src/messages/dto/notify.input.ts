@@ -16,15 +16,18 @@ export class NotifyInput {
   recipientId: string;
 
   @Field(() => String, { nullable: true })
-    fullName?: string
+  fullName?: string
 
-    @Field(() => String, { nullable: true })
-    photoURL?: string
+  @Field(() => String, { nullable: true })
+  photoURL?: string
 
-    @Field(() => String, { nullable: true })
-    chatRoomId?: string
+  @Field(() => String, { nullable: true })
+  chatRoomId?: string
 
-    @Field(() => Boolean, { nullable: true })
-    isGroup?: boolean
+  @Field(() => Boolean, { nullable: true })
+  isGroup?: boolean
+
+  @Field(() => String, { nullable: true })
+  accessToken?: string
 
 }

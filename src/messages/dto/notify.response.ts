@@ -35,6 +35,9 @@ export class DataVideoCall {
     @Field(() => Boolean, { nullable: true })
     isGroup?: boolean
 
+    @Field(() => String, { nullable: true })
+    accessToken?: string
+
 }
 
 @ObjectType()
