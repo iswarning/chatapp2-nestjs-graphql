@@ -30,6 +30,10 @@ export class ChatRoom {
   admin: string;
 
   @Prop()
+  @Field(() => String, { nullable: true, defaultValue: "" })
+  lastMessage: string;
+
+  @Prop()
   @Field(() => String)
   createdAt: string;
 

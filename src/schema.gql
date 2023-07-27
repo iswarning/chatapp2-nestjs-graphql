@@ -9,6 +9,7 @@ type ChatRoom {
   isGroup: Boolean!
   name: String
   admin: String
+  lastMessage: String
   createdAt: String!
   updatedAt: String!
 }
