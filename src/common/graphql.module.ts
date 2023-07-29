@@ -14,7 +14,7 @@ import { join } from 'path';
         'graphql-ws': {
           path: '/subscriptions'
         }
-      }
+      },
     }),
   ],
 })
