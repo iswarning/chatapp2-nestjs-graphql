@@ -97,12 +97,18 @@ type Query {
   getFileByKey(key: String!): Message!
   getAllMessagesByChatRoomId(chatRoomId: String!): [Message!]!
   getLastMessage(chatRoomId: String!): Message!
+  paginateMessage(paginateInput: PaginateInput!): [Message!]!
   getListFriendOfUser(userId: String!): [Friend!]!
   getFriendRequestBySenderId(senderId: String!): [FriendRequest!]!
   getFriendRequestByRecipientId(recipientId: String!): [FriendRequest!]!
 }
 
 input GenerateRtcTokenInput {
+  chatRoomId: String!
+}
+
+input PaginateInput {
+  n: Float!
   chatRoomId: String!
 }
 

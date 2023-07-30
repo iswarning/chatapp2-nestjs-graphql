@@ -7,6 +7,7 @@ import { PubSub } from 'graphql-subscriptions';
 import { NotifyResponse } from './dto/notify.response';
 import { ChatRoomsService } from 'src/chat-rooms/chat-rooms.service';
 import { UsersService } from 'src/users/users.service';
+import { PaginateInput } from './dto/paginate.input';
 
 const pubSub =  new PubSub();
 @Resolver(() => Message)
@@ -71,6 +72,11 @@ export class MessagesResolver {
   @Mutation(() => Message,{ name: 'removeMessage'})
   remove(@Args('_id') id: string) {
     return this.messagesService.remove(id);
+  }
+
+  @Query(() => [Message])
+  paginateMessage(@Args("paginateInput") input: PaginateInput) {
+    return this.messagesService.paginateMessage(input)
   }
 
 }

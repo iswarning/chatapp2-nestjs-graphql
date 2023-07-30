@@ -4,6 +4,7 @@ import { UpdateMessageInput } from './dto/update-message.input';
 import { Message } from './entities/message.entity';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
+import { PaginateInput } from './dto/paginate.input';
 
 @Injectable()
 export class MessagesService {
@@ -34,6 +35,10 @@ export class MessagesService {
 
     async getAllMessagesByChatRoomId(chatRoomId: string) {
         return await this.messageModel.find({ chatRoomId: chatRoomId }).exec()
+    }
+
+    paginateMessage(input: PaginateInput) {
+        return this.messageModel.find({ chatRoomId: input.chatRoomId }).sort({ _id: -1 }).limit(20).skip(20 * input.n).exec()
     }
 
     async getLastMessage(chatRoomId: string) {
