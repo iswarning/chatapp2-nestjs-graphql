@@ -27,14 +27,6 @@ export class Message {
 
   @Prop()
   @Field(() => String, { nullable: true, defaultValue: "" })
-  file: string;
-
-  @Prop()
-  @Field(() => String, { nullable: true, defaultValue: "" })
-  images: string;
-
-  @Prop()
-  @Field(() => String, { nullable: true, defaultValue: "" })
   reaction: string;
 
   @Prop()

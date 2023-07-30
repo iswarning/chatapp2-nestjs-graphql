@@ -16,12 +16,6 @@ export class CreateMessageInput {
   seen: string;
 
   @Field(() => String, { nullable: true, defaultValue: "" })
-  file: string;
-
-  @Field(() => String, { nullable: true, defaultValue: "" })
-  images: string;
-
-  @Field(() => String, { nullable: true, defaultValue: "" })
   reaction: string;
 
   @Field(() => String, { nullable: true, defaultValue: "" })

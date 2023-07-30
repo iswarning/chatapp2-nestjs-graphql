@@ -20,8 +20,6 @@ type Message {
   type: String!
   senderId: String!
   seen: String
-  file: String
-  images: String
   reaction: String
   chatRoomId: String!
   createdAt: String!
@@ -176,8 +174,6 @@ input CreateMessageInput {
   type: String!
   senderId: String!
   seen: String = ""
-  file: String = ""
-  images: String = ""
   reaction: String = ""
   createdAt: String = ""
   updatedAt: String = ""
@@ -189,8 +185,6 @@ input UpdateMessageInput {
   type: String
   senderId: String
   seen: String = ""
-  file: String = ""
-  images: String = ""
   reaction: String = ""
   createdAt: String = ""
   updatedAt: String = ""
