@@ -37,8 +37,9 @@ export class FriendRequestsResolver {
     return this.friendRequestsService.getFriendRequestByRecipientId(id);
   }
 
-  @Mutation(() => FriendRequest)
+  @Mutation(() => String)
   removeFriendRequest(@Args('_id') id: string) {
-    return this.friendRequestsService.remove(id);
+    this.friendRequestsService.remove(id);
+    return "Deleted !"
   }
 }
