@@ -19,12 +19,9 @@ export class FriendRequestsResolver {
     pubSub.publish("publisher-notify", {
       onSub: {
         senderId: payload.senderId,
-        type: "accept-friend-request",
+        type: "send-friend-request",
         message: `${userInfo.fullName} sent a friend request !`,
         recipientId: payload.recipientId,
-        dataNotify: {
-          friendRequest: payload,
-        }
       }
     })
     return payload;
