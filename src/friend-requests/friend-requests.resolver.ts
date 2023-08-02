@@ -22,6 +22,9 @@ export class FriendRequestsResolver {
         type: "send-friend-request",
         message: `${userInfo.fullName} sent a friend request !`,
         recipientId: payload.recipientId,
+        dataNotify: {
+          friendRequest: payload
+        }
       }
     })
     return payload;
