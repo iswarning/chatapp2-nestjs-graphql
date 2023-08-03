@@ -1,9 +1,10 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Subscription } from '@nestjs/graphql';
 import { FriendRequestsService } from './friend-requests.service';
 import { FriendRequest } from './entities/friend-request.entity';
 import { CreateFriendRequestInput } from './dto/create-friend-request.input';
 import { PubSub } from 'graphql-subscriptions';
 import { UsersService } from 'src/users/users.service';
+import { NotifyResponse } from 'src/messages/dto/notify.response';
 
 const pubSub = new PubSub()
 
@@ -42,15 +43,8 @@ export class FriendRequestsResolver {
 
   @Mutation(() => Boolean)
   async removeFriendRequest(@Args('_id') id: string) {
-    const payload = await this.friendRequestsService.remove(id);
-    pubSub.publish("publisher-notify", {
-      onSub: {
-        senderId: payload.senderId,
-        type: "remove-friend-request",
-        message: id,
-        recipientId: JSON.stringify([payload.recipientId, payload.senderId]),
-      }
-    })
+    await this.friendRequestsService.remove(id);
     return true
   }
+
 }

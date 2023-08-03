@@ -5,6 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Friend, FriendSchema } from './entities/friend.entity';
 import { User, UserSchema } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
+import { MessagesResolver } from 'src/messages/messages.resolver';
+import { Message, MessageSchema } from 'src/messages/entities/message.entity';
 
 @Module({
   imports: [

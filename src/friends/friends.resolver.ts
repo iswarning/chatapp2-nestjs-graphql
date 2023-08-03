@@ -1,9 +1,10 @@
-import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { Resolver, Query, Mutation, Args, Int, Subscription } from '@nestjs/graphql';
 import { FriendsService } from './friends.service';
 import { Friend } from './entities/friend.entity';
 import { CreateFriendInput } from './dto/create-friend.input';
 import { PubSub } from 'graphql-subscriptions';
 import { UsersService } from 'src/users/users.service';
+import { NotifyResponse } from 'src/messages/dto/notify.response';
 
 const pubSub = new PubSub()
 
@@ -25,7 +26,7 @@ export class FriendsResolver {
         dataNotify: {
           friend: payload
         }
-      }
+      } as NotifyResponse
     })
     return payload;
   }
@@ -49,4 +50,5 @@ export class FriendsResolver {
     })
     return payload;
   }
+
 }

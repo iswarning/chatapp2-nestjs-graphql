@@ -26,7 +26,7 @@ export class MessagesResolver {
       senderId: createMessageInput.senderId,
       type: "send-message",
       message: `${userInfo.fullName} has sent a message`,
-      recipientId: JSON.stringify(chatRoom.members),
+      recipientId: JSON.stringify(chatRoom.members.filter((mem) => mem !== createMessageInput.senderId)),
       dataNotify: {
         message: newMessage
       }
