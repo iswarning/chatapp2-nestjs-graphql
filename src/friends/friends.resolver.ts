@@ -37,7 +37,8 @@ export class FriendsResolver {
 
   @Mutation(() => Friend)
   async removeFriend(@Args('_id') id : string) {
-    let payload = await this.friendsService.remove(id)
+    let payload = await this.friendsService.findOne(id)
+    this.friendsService.remove(id)
     pubSub.publish("publisher-notify", {
       onSub: {
         senderId: payload.senderId,

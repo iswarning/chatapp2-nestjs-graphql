@@ -19,6 +19,14 @@ export class FriendsService {
     return await friend.save();
   }
 
+  async findOne(_id: string) {
+    try {
+      return await this.friendModel.findOne({ _id: _id }).exec()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   async getListFriendOfUser(id: string) {
     return await this.friendModel.find({ $or: [ { senderId: id }, { recipientId: id} ] }).exec()
   }

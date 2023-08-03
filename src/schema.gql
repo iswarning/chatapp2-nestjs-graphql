@@ -126,7 +126,7 @@ type Mutation {
   createFriend(createFriendInput: CreateFriendInput!): Friend!
   removeFriend(_id: String!): Friend!
   createFriendRequest(createFriendRequestInput: CreateFriendRequestInput!): FriendRequest!
-  removeFriendRequest(_id: String!): String!
+  removeFriendRequest(_id: String!): Boolean!
 }
 
 input CreateUserInput {

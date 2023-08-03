@@ -40,9 +40,17 @@ export class FriendRequestsResolver {
     return this.friendRequestsService.getFriendRequestByRecipientId(id);
   }
 
-  @Mutation(() => String)
-  removeFriendRequest(@Args('_id') id: string) {
-    this.friendRequestsService.remove(id);
-    return "Deleted !"
+  @Mutation(() => Boolean)
+  async removeFriendRequest(@Args('_id') id: string) {
+    const payload = await this.friendRequestsService.remove(id);
+    pubSub.publish("publisher-notify", {
+      onSub: {
+        senderId: payload.senderId,
+        type: "remove-friend-request",
+        message: id,
+        recipientId: JSON.stringify([payload.recipientId, payload.senderId]),
+      }
+    })
+    return true
   }
 }
