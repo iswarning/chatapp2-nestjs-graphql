@@ -119,7 +119,7 @@ type Mutation {
   createChatRoom(createChatRoomInput: CreateChatRoomInput!): ChatRoom!
   updateChatRoom(updateChatRoomInput: UpdateChatRoomInput!): ChatRoom!
   removeChatRoom(_id: String!): ChatRoom!
-  videoCall(notifyInput: NotifyInput!): NotifyResponse!
+  videoCall(notifyVideoCallInput: String!): String!
   createMessage(createMessageInput: CreateMessageInput!): Message!
   updateMessage(updateMessageInput: UpdateMessageInput!): Message!
   removeMessage(_id: String!): Message!
@@ -163,18 +163,6 @@ input UpdateChatRoomInput {
   _id: String!
 }
 
-input NotifyInput {
-  message: String
-  type: String!
-  senderId: String!
-  recipientId: String!
-  fullName: String
-  photoURL: String
-  chatRoomId: String
-  isGroup: Boolean
-  accessToken: String
-}
-
 input CreateMessageInput {
   message: String!
   type: String!
@@ -209,6 +197,7 @@ input CreateFriendRequestInput {
 }
 
 type Subscription {
-  onCall: NotifyResponse!
-  onSub: NotifyResponse!
+  onCall: String!
+  onSendMessage: NotifyResponse!
+  onSendFriendRequest: NotifyResponse!
 }

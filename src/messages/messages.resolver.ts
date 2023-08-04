@@ -22,7 +22,7 @@ export class MessagesResolver {
     const newMessage = await this.messagesService.create(createMessageInput);
     const chatRoom = await this.chatRoomsService.findOne(createMessageInput.chatRoomId) 
     const userInfo = await this.userService.findOne(createMessageInput.senderId)
-    pubSub.publish("publisher-notify", { onSub: {
+    pubSub.publish("send-message", { onSendMessage: {
       senderId: createMessageInput.senderId,
       type: "send-message",
       message: `${userInfo.fullName} has sent a message`,
@@ -35,8 +35,8 @@ export class MessagesResolver {
   }
 
   @Subscription(() => NotifyResponse)
-  onSub() {
-      return pubSub.asyncIterator("publisher-notify")
+  onSendMessage() {
+      return pubSub.asyncIterator("send-message")
   }
 
   @Query(() => [Message],{ name: 'messages'})
