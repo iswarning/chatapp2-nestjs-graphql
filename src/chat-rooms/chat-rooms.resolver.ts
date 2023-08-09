@@ -44,23 +44,10 @@ export class ChatRoomsResolver {
 
   @Mutation(() => NotifyResponse)
   videoCall(@Args("notifyInput") notifyInput: NotifyInput) {
-    let data: NotifyResponse = {
-      senderId: notifyInput.senderId,
-      message: notifyInput.message,
-      type: notifyInput.type,
-      recipientId: notifyInput.recipientId,
-      dataVideoCall: {
-        chatRoomId: notifyInput.chatRoomId,
-        fullName: notifyInput.fullName,
-        photoURL: notifyInput.photoURL,
-        isGroup: notifyInput.isGroup,
-        accessToken: notifyInput.accessToken
-      }
-    }
     pubSub.publish("publisher-call", {
-        onCall: data
+        onCall: notifyInput
     })
-    return data
+    return notifyInput
   }
 
   @Subscription(() => NotifyResponse)

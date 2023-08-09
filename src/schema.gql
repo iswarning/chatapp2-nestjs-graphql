@@ -119,8 +119,9 @@ type Mutation {
   createChatRoom(createChatRoomInput: CreateChatRoomInput!): ChatRoom!
   updateChatRoom(updateChatRoomInput: UpdateChatRoomInput!): ChatRoom!
   removeChatRoom(_id: String!): ChatRoom!
-  videoCall(notifyVideoCallInput: String!): String!
+  videoCall(notifyInput: NotifyInput!): NotifyResponse!
   createMessage(createMessageInput: CreateMessageInput!): Message!
+  pushNotify(notifyInput: NotifyInput!): Boolean!
   updateMessage(updateMessageInput: UpdateMessageInput!): Message!
   removeMessage(_id: String!): Message!
   createFriend(createFriendInput: CreateFriendInput!): Friend!
@@ -163,6 +164,68 @@ input UpdateChatRoomInput {
   _id: String!
 }
 
+input NotifyInput {
+  message: String
+  type: String!
+  senderId: String!
+  recipientId: String!
+  dataVideoCall: DataVideoCallInput
+  dataNotify: DataNotifyInput
+}
+
+input DataVideoCallInput {
+  fullName: String
+  photoURL: String
+  chatRoomId: String
+  isGroup: Boolean
+  accessToken: String
+}
+
+input DataNotifyInput {
+  message: MessageInput
+  chatRoom: ChatRoomInput
+  friend: FriendInput
+  friendRequest: FriendRequestInput
+}
+
+input MessageInput {
+  _id: String!
+  message: String!
+  type: String!
+  senderId: String!
+  seen: String = ""
+  reaction: String = ""
+  chatRoomId: String!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input ChatRoomInput {
+  _id: String!
+  members: [String!]!
+  photoURL: String = ""
+  isGroup: Boolean!
+  name: String = ""
+  admin: String = ""
+  lastMessage: String = ""
+  createdAt: String!
+  updatedAt: String!
+}
+
+input FriendInput {
+  _id: String!
+  senderId: String!
+  recipientId: String!
+  createdAt: String!
+}
+
+input FriendRequestInput {
+  _id: String!
+  senderId: String!
+  recipientId: String!
+  createdAt: String!
+}
+
 input CreateMessageInput {
   message: String!
   type: String!
@@ -197,7 +260,7 @@ input CreateFriendRequestInput {
 }
 
 type Subscription {
-  onCall: String!
-  onSendMessage: NotifyResponse!
+  onCall: NotifyResponse!
+  onSubscription: NotifyResponse!
   onSendFriendRequest: NotifyResponse!
 }

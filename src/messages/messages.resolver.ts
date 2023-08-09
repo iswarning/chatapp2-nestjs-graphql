@@ -8,6 +8,7 @@ import { NotifyResponse } from './dto/notify.response';
 import { ChatRoomsService } from 'src/chat-rooms/chat-rooms.service';
 import { UsersService } from 'src/users/users.service';
 import { PaginateInput } from './dto/paginate.input';
+import { NotifyInput } from './dto/notify.input';
 
 const pubSub =  new PubSub();
 @Resolver(() => Message)
@@ -20,23 +21,18 @@ export class MessagesResolver {
   @Mutation(() => Message,{ name: 'createMessage'})
   async create(@Args('createMessageInput') createMessageInput: CreateMessageInput) {
     const newMessage = await this.messagesService.create(createMessageInput);
-    const chatRoom = await this.chatRoomsService.findOne(createMessageInput.chatRoomId) 
-    const userInfo = await this.userService.findOne(createMessageInput.senderId)
-    pubSub.publish("send-message", { onSendMessage: {
-      senderId: createMessageInput.senderId,
-      type: "send-message",
-      message: `${userInfo.fullName} has sent a message`,
-      recipientId: JSON.stringify(chatRoom.members.filter((mem) => mem !== createMessageInput.senderId)),
-      dataNotify: {
-        message: newMessage
-      }
-    } as NotifyResponse })
     return newMessage
   }
 
+  @Mutation(() => Boolean)
+  pushNotify(@Args('notifyInput') notifyInput: NotifyInput) {
+    pubSub.publish("push-notify", { onSubscription: notifyInput })
+    return true
+  }
+
   @Subscription(() => NotifyResponse)
-  onSendMessage() {
-      return pubSub.asyncIterator("send-message")
+  onSubscription() {
+    return pubSub.asyncIterator("push-notify")
   }
 
   @Query(() => [Message],{ name: 'messages'})
