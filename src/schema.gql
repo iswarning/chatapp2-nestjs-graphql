@@ -262,5 +262,4 @@ input CreateFriendRequestInput {
 type Subscription {
   onCall: NotifyResponse!
   onSubscription: NotifyResponse!
-  onSendFriendRequest: NotifyResponse!
 }

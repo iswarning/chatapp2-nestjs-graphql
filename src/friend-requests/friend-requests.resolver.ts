@@ -16,24 +16,7 @@ export class FriendRequestsResolver {
   @Mutation(() => FriendRequest)
   async createFriendRequest(@Args('createFriendRequestInput') createFriendRequestInput: CreateFriendRequestInput) {
     let payload = await this.friendRequestsService.create(createFriendRequestInput)
-    let userInfo = await this.userService.findOne(payload.senderId)
-    pubSub.publish("send-friend-request", {
-      onSendFriendRequest: {
-        senderId: payload.senderId,
-        type: "send-friend-request",
-        message: `${userInfo.fullName} sent a friend request !`,
-        recipientId: payload.recipientId,
-        dataNotify: {
-          friendRequest: payload
-        }
-      }
-    })
     return payload;
-  }
-
-  @Subscription(() => NotifyResponse)
-  onSendFriendRequest() {
-      return pubSub.asyncIterator("send-friend-request")
   }
 
   @Query(() => [FriendRequest])
@@ -51,7 +34,5 @@ export class FriendRequestsResolver {
     await this.friendRequestsService.remove(id);
     return true
   }
-
-
 
 }
